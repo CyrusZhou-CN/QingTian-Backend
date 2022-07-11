@@ -1,0 +1,54 @@
+{
+  "AppSettings": {
+    "InjectSpecificationDocument": true //是否开启swagger
+  },
+  "SystemSettings": {
+    "IsGlobalRequestLog": true, //是否开启全局日志
+    "MaxRequestBodySize": 41943040 //单位是字节（byte） 1kb=1024byte,此处限制40M
+  },
+  //动态api配置
+  "DynamicApiControllerSettings": {
+    "DefaultRoutePrefix": "api", //默认路由前缀，默认api，但是如果action上面写死route的话 就无效了特性的优先级最高
+    "ForceWithRoutePrefix": true
+  },
+  "SpecificationDocumentSettings": {
+    "DocumentTitle": "QingTian",
+    "DocExpansionState": "None",
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Default",
+        "Title": "权限管理平台",
+        "Description": "前后端分离架构",
+        "Version": "1.0.0"
+      },
+      {
+        "Group": "FlowCenter",
+        "Title": "流程中心",
+        "Description": "流程中心模块或插件。",
+        "Version": "1.0.0"
+      },
+      {
+        "Group": "Application",
+        "Title": "业务模块",
+        "Description": "独立业务模块",
+        "Version": "1.0.0"
+      }
+    ]
+  },
+  "Cache": {
+    "CacheType": "MemoryCache", // RedisCache
+    "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2"
+  },
+  "JWTSettings": {
+    "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
+    "IssuerSigningKey": "dfghj1sdffwer23r235g67j9ik0oguimouyinmoasd78j9k0234567890sdfghjk435rf6gty", // 密钥，string 类型，必须是复杂密钥，长度大于16
+    "ValidateIssuer": true, // 是否验证签发方，bool 类型，默认true
+    "ValidIssuer": "qingtian", // 签发方，string 类型
+    "ValidateAudience": true, // 是否验证签收方，bool 类型，默认true
+    "ValidAudience": "qingtian", // 签收方，string 类型
+    "ValidateLifetime": true, // 是否验证过期时间，bool 类型，默认true，建议true
+    "ExpiredTime": 20, // 过期时间，long 类型，单位分钟，默认20分钟
+    "ClockSkew": 5, // 过期时间容错值，long 类型，单位秒，默认 5秒
+    "Algorithm": "HS256" // 加密算法，string 类型，默认 SecurityAlgorithms.HmacSha256
+  }
+}

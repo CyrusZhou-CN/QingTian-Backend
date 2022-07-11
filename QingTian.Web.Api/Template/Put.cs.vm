@@ -1,0 +1,28 @@
+﻿using System;
+using QingTian.Core;
+
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)输出参数
+    /// </summary>
+    public class @(@Model.ClassName)Put
+    {
+@foreach (var column in Model.TableField){
+    if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:public @(@column.FkColumnNetType) @(@column.FkEntityName)@(@column.FkColumnName) { get; set; }
+        @:
+    }
+}
+    @foreach (var column in Model.TableField){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+    }
+    }
+}

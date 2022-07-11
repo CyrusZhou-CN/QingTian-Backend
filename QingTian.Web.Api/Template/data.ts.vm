@@ -1,0 +1,84 @@
+﻿import { BasicColumn, FormSchema } from '/@@/components/Table';
+@if(Model.IsDict){
+@:import { dictDataByCode } from '/@@/api/gen/dictData';
+}
+@{var strManage = "";}
+@if(Model.IsFk){
+foreach (var column in Model.TableField){
+if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+if(strManage.Length>0){
+strManage+=", ";
+}
+strManage+=$"{@Model.LowerClassName}Fk{@column.FkEntityName}{@column.FkColumnName}List";
+}
+}
+@:import { @strManage } from '/@@/api/application/@(@Model.LowerClassName)Manage';
+}
+export const columns: BasicColumn[] = [
+@foreach (var column in Model.TableField){
+if (@column.WhetherTable){
+  @:{
+    @:title: '@column.ColumnComment',
+if(@column.EffectType.ToLower() == "switch"){
+    @:customRender: (value) => (value ?  h(Tag, { color: 'green' }, () => '是') : h(Tag, { color: 'red' }, () => '否')),
+}
+    @:dataIndex: '@column.LowerColumnName',
+  @:},
+}
+}
+];
+@if(Model.QueryWhetherList.Count > 0){
+@:export const searchFormSchema: FormSchema[] = [
+@foreach (var column in Model.QueryWhetherList){
+@:  {
+@:    field: '@column.LowerColumnName',
+@:    label: '@column.ColumnComment',
+if (@column.EffectType.ToLower() == "select" && !string.IsNullOrWhiteSpace(@column.DictTypeCode)){
+@:    component: 'ApiSelect',
+@:    componentProps: {
+@:      api: async () => await dictDataByCode('@column.DictTypeCode', '@column.NetType'),
+@:      getPopupContainer: () => document.body,
+@:    },
+}else if(@column.EffectType.ToLower() == "fk"){
+@:    component: 'ApiSelect',
+@:    componentProps: {
+@:      api: @(@Model.LowerClassName)Fk@(@column.FkEntityName)@(@column.FkColumnName)List,
+@:      getPopupContainer: () => document.body,
+@:    },
+}else{
+@:    component: '@column.EffectType',
+}
+@:    colProps: { span: 6 },
+@:  },
+}
+@:];
+}
+export const formSchema: FormSchema[] = [
+@foreach (var column in Model.TableField){
+if(!@column.ColumnKey){
+@:  {
+@:    field: '@column.LowerColumnName',
+@:    label: '@column.ColumnComment',
+if (@column.EffectType.ToLower() == "select" && !string.IsNullOrWhiteSpace(@column.DictTypeCode)){
+@:    component: 'ApiSelect',
+@:    componentProps: {
+@:      api: async () => await dictDataByCode('@column.DictTypeCode', '@column.NetType'),
+@:      getPopupContainer: () => document.body,
+@:    },
+}else if(@column.EffectType.ToLower() == "fk"){
+@:    component: 'ApiSelect',
+@:    componentProps: {
+@:      api: @(@Model.LowerClassName)Fk@(@column.FkEntityName)@(@column.FkColumnName)List,
+@:      getPopupContainer: () => document.body,
+@:    },
+}else{
+@:    component: '@column.EffectType',
+}
+@:    colProps: { span: 12 },
+if (@column.WhetherRequired){
+@:    required: true,
+}
+@:  },
+}
+}
+];

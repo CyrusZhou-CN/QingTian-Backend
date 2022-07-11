@@ -1,0 +1,60 @@
+﻿using QingTian.Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using QingTian.Core.Entity;
+using QingTian.Application.Entity;
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)服务
+    /// </summary>
+    public interface I@(@Model.ClassName)Service
+    {
+        /// <summary>
+        /// 增加@(@Model.BusName)
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task Add(Add@(@Model.ClassName)Param param);
+        /// <summary>
+        /// 删除@(@Model.BusName)
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task Delete(Delete@(@Model.ClassName)Param param);
+        /// <summary>
+        /// 获取@(@Model.BusName)
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Param param);
+        /// <summary>
+        /// 获取@(@Model.BusName)列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task<dynamic> List([FromQuery] @(@Model.ClassName)Param param);
+        /// <summary>
+        /// 分页查询@(@Model.BusName)
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task<dynamic> Page([FromQuery] @(@Model.ClassName)Param param);
+        /// <summary>
+        /// 更新@(@Model.BusName)
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task Update(Update@(@Model.ClassName)Param param);
+@foreach (var column in Model.TableField){
+if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+@:
+@:        /// <summary>
+@:        /// 获取@(@column.FkEntityName)列表
+@:        /// </summary>
+@:        /// <returns></returns>
+@:        Task<dynamic> @(@Model.ClassName)Fk@(@column.FkEntityName)@(@column.FkColumnName)List();
+}
+}
+    }
+}

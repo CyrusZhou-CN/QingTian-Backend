@@ -1,0 +1,139 @@
+﻿using QingTian.Core;
+using Furion.DependencyInjection;
+using Furion.DynamicApiController;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
+using System.Linq;
+using System.Threading.Tasks;
+using QingTian.Core.Entity;
+using QingTian.Application.Entity;
+namespace @Model.NameSpace
+{
+    /// <inheritdoc cref="I@(@Model.ClassName)Service"/>
+    [Route("@Model.ClassName"), ApiDescriptionSettings("Application",Name = "@Model.ClassName", Order = 1)]
+    public class @(@Model.ClassName)Service : I@(@Model.ClassName)Service, IDynamicApiController, ITransient
+    {
+        private readonly SqlSugarRepository<@(@Model.ClassName)> _@(@Model.LowerClassName)Rep;
+@{var replist = new List<string>();}
+@{var rep = "";}
+@if(Model.IsFk){
+foreach (var column in Model.TableField){
+if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != "" && $"{@column.LowerFkEntityName}Rep" != $"{@Model.LowerClassName}Rep"){
+rep = $"SqlSugarRepository<{@column.FkEntityName}> _{@column.LowerFkEntityName}Rep";
+if(!replist.Contains(rep)){
+replist.Add(rep);
+        @:private readonly @rep;
+}
+}
+}
+}
+        public @(@Model.ClassName)Service(SqlSugarRepository<@(@Model.ClassName)> @(@Model.LowerClassName)Rep
+@if(Model.IsFk){
+replist = new List<string>();
+foreach (var column in Model.TableField){
+if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != "" && $"{@column.LowerFkEntityName}Rep" != $"{@Model.LowerClassName}Rep"){
+rep = $",SqlSugarRepository<{@column.FkEntityName}> {@column.LowerFkEntityName}Rep";
+if(!replist.Contains(rep)){
+replist.Add(rep);
+            @:@rep
+}
+}
+}
+}
+        )
+        {
+            _@(@Model.LowerClassName)Rep = @(@Model.LowerClassName)Rep;
+@if(Model.IsFk){
+replist = new List<string>();
+foreach (var column in Model.TableField){
+if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != "" && $"{@column.LowerFkEntityName}Rep" != $"{@Model.LowerClassName}Rep"){
+rep = $"_{@column.LowerFkEntityName}Rep = {@column.LowerFkEntityName}Rep;";
+if(!replist.Contains(rep)){
+replist.Add(rep);
+            @:@rep
+}
+}
+}
+}
+        }
+
+        /// <inheritdoc/>
+        [HttpGet("page")]
+        public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Param param)
+        {
+            var entities = await _@(@Model.LowerClassName)Rep.AsQueryable()
+            @foreach (var column in Model.TableField){
+                if (@column.QueryWhether){
+                    if (@column.NetType.ToLower() == "string"){
+                        if(@column.QueryType.ToLower() == "like"){
+            @:.WhereIF(!string.IsNullOrWhiteSpace(param.@column.ColumnName), u => u.@(@column.ColumnName).Contains(param.@(@column.ColumnName).Trim()))
+                        }else{
+            @:.WhereIF(!string.IsNullOrWhiteSpace(param.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType param.@(@column.ColumnName))
+                        }
+                    }
+                }
+            }
+            .ToPagedListAsync(param.Page, param.PageSize);
+            return entities.QtPagedResult();
+        }
+
+        /// <inheritdoc/>
+        [HttpPost("add")]
+        public async Task Add(Add@(@Model.ClassName)Param param)
+        {
+            var entity = param.Adapt<@(@Model.ClassName)>();
+            await _@(@Model.LowerClassName)Rep.InsertAsync(entity);
+        }
+
+        /// <inheritdoc/>
+        [HttpPost("delete")]
+        public async Task Delete(Delete@(@Model.ClassName)Param param)
+        {
+            @foreach (var column in Model.TableField){
+                if (@column.ColumnKey){
+            @:var entity = await _@(@Model.LowerClassName)Rep.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == param.@(@column.ColumnName));
+                }
+            }
+            await _@(@Model.LowerClassName)Rep.DeleteAsync(entity);
+        }
+
+        /// <inheritdoc/>
+        [HttpPost("edit")]
+        public async Task Update(Update@(@Model.ClassName)Param param)
+        {
+            var entity = param.Adapt<@(@Model.ClassName)>();
+            await _@(@Model.LowerClassName)Rep.AsUpdateable(entity).IgnoreColumns(ignoreAllNullColumns:true).ExecuteCommandAsync();
+        }
+
+        /// <inheritdoc/>
+        [HttpGet("detail")]
+        public async Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Param param)
+        {
+            @foreach (var column in Model.TableField){
+                if (@column.ColumnKey){
+            @:return await _@(@Model.LowerClassName)Rep.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == param.@(@column.ColumnName));
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        [HttpGet("list")]
+        public async Task<dynamic> List([FromQuery] @(@Model.ClassName)Param param)
+        {
+            return await _@(@Model.LowerClassName)Rep.ToListAsync();
+        }
+@foreach (var column in Model.TableField){
+if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+@:
+@:        /// <inheritdoc/>
+@:        [HttpGet("fk@(@column.FkEntityName)@(@column.FkColumnName)")]
+@:        public async Task<dynamic> @(@Model.ClassName)Fk@(@column.FkEntityName)@(@column.FkColumnName)List()
+@:        {
+@:           return _@(@column.LowerFkEntityName)Rep.Where(u => u.IsDeleted != true)
+@:                  .ToListAsync(u => new { label =  u.@column.FkColumnName, value = u.Id}).Result;
+@:        }
+}
+}
+    }
+}

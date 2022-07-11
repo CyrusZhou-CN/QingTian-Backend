@@ -1,0 +1,15 @@
+{
+  "ConnectionStrings": {
+    "DefaultDbNumber": "0",
+    "DefaultDbType": "Sqlite",
+    "DefaultDbString": "Data Source=./QingTian.db",
+    "DbConfigs": [
+      {
+        "DbNumber": "999",
+        "DbType": "OpenGauss",
+        "DbString": "PORT=5432;DATABASE=QingTian;HOST=localhost;PASSWORD=Gauss666;USER ID=gauss"
+      }
+    ]
+
+  }
+}

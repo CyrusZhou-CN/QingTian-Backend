@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QingTian.Application</name>
+    </assembly>
+    <members>
+        <member name="T:QingTian.Application.Entity.Test">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:QingTian.Application.TestInheritdoc">
+            <inheritdoc cref="T:QingTian.Application.ITestInheritdoc"/>
+        </member>
+        <member name="M:QingTian.Application.TestInheritdoc.GetName(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:QingTian.Application.TestInheritdoc.GetName2(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="T:QingTian.Application.ITestInheritdoc">
+            <summary>
+            测试注释续承
+            </summary>
+        </member>
+        <member name="M:QingTian.Application.ITestInheritdoc.GetName(System.Int32)">
+            <summary>
+            获取名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QingTian.Application.ITestInheritdoc.GetName2(System.Int32)">
+            <summary>
+            获取名称
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>QingTian.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="QingTian.Application.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="QingTian.Application.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QingTian.Core\QingTian.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
+
+</Project>

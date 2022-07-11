@@ -1,0 +1,101 @@
+﻿<template>
+  <div>
+    <BasicTable @@register="registerTable">
+      <template #toolbar>
+        <a-button type="primary" @@click="handleCreate"> 新增@(@Model.BusName) </a-button>
+      </template>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'clarity:note-edit-line',
+                onClick: handleEdit.bind(null, record),
+              },
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                popConfirm: {
+                  title: '是否确认删除',
+                  confirm: handleDelete.bind(null, record),
+                },
+              },
+            ]"
+          />
+        </template>
+      </template>
+    </BasicTable>
+    <@(@Model.ClassName)Form @@register="registerModal" @@success="handleSuccess" />
+  </div>
+</template>
+<script lang="ts">
+  import { defineComponent } from 'vue';
+
+  import { BasicTable, useTable, TableAction } from '/@@/components/Table';
+  import { @(@Model.LowerClassName)Page, @(@Model.LowerClassName)Delete } from '/@@/api/application/@(@Model.LowerClassName)Manage';
+
+  import { useModal } from '/@@/components/Modal';
+  import @(@Model.ClassName)Form from './@(@Model.LowerClassName)Form.vue';
+
+  import { columns, searchFormSchema } from './@(@Model.LowerClassName).data';
+
+  export default defineComponent({
+    name: '@(@Model.ClassName)Management',
+    components: { BasicTable, @(@Model.ClassName)Form, TableAction },
+    setup() {
+      const [registerModal, { openModal }] = useModal();
+      const [registerTable, { reload }] = useTable({
+        title: '@(@Model.BusName)列表',
+        api: @(@Model.LowerClassName)Page,
+        columns,
+        formConfig: {
+          labelWidth: 120,
+          schemas: searchFormSchema,
+        },
+        useSearchForm: true,
+        showTableSetting: true,
+        bordered: true,
+        actionColumn: {
+          width: 80,
+          title: '操作',
+          dataIndex: 'action',
+          fixed: undefined,
+        },
+      });
+
+      function handleCreate() {
+        openModal(true, {
+          isUpdate: false,
+          success: handleSuccess,
+        });
+      }
+
+      function handleEdit(record: Recordable) {
+        openModal(true, {
+          record,
+          isUpdate: true,
+          success: handleSuccess,
+        });
+      }
+
+      async function handleDelete(record: Recordable) {
+        console.log(record);
+        await @(@Model.LowerClassName)Delete(record);
+        handleSuccess();
+      }
+
+      function handleSuccess() {
+        reload();
+      }
+
+      return {
+        registerTable,
+        registerModal,
+        handleCreate,
+        handleEdit,
+        handleDelete,
+        handleSuccess,
+      };
+    },
+  });
+</script>

@@ -1,0 +1,6 @@
+.vs
+.git
+bin
+obj
+/QingTian.Web.Api/logs/*.log
+/QingTian.Web.Api/QingTian.db

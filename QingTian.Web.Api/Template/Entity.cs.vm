@@ -1,0 +1,37 @@
+﻿using System;
+using SqlSugar;
+using System.ComponentModel;
+using QingTian.Core.Entity;
+namespace QingTian.Application.Entity
+{
+    /// <summary>
+    /// @(@Model.Description)
+    /// </summary>
+    [SugarTable("@(@Model.TableName)")]
+    [Description("@(!string.IsNullOrWhiteSpace(@Model.Description)?@Model.Description:@Model.EntityName)")]
+    public class @(@Model.EntityName) : @Model.BaseClassName
+    {
+@foreach (var column in Model.TableField){
+var sugarColumn="";
+var columnDescription=!string.IsNullOrWhiteSpace(@column.ColumnDescription)?@column.ColumnDescription:@column.DbColumnName;
+if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
+sugarColumn=$"[SugarColumn(IsIdentity = {@column.IsIdentity.ToString().ToLower()}, ColumnDescription = \"{@columnDescription}\", IsPrimaryKey = true)]";
+}
+else if(@Model.BaseClassName=="" && @column.IsPrimarykey){
+sugarColumn=$"[SugarColumn(IsIdentity = {@column.IsIdentity.ToString().ToLower()}, ColumnDescription = \"{@columnDescription}\", IsPrimaryKey = true)]";
+}
+else if(!@column.IsPrimarykey && @column.IsNullable){
+sugarColumn=$"[SugarColumn( ColumnDescription = \"{@columnDescription}\",IsNullable = true)]";
+}else{
+sugarColumn=$"[SugarColumn( ColumnDescription = \"{@columnDescription}\")]";
+}
+@:        /// <summary>
+@:        /// @columnDescription
+@:        /// </summary>
+if (!string.IsNullOrWhiteSpace(@sugarColumn)){
+@:        @sugarColumn
+}
+@:        public @column.DataType @column.DbColumnName { get; set; }
+}
+    }	
+}
