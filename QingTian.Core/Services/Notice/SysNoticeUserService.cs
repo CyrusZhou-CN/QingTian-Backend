@@ -43,11 +43,14 @@ namespace QingTian.Core.Services.Notice
         /// <inheritdoc/>
         public async Task SetReadStatusAsync(long noticeId, long userId, NoticeUserStatus status)
         {
-            await _sysNoticeUserRep.UpdateAsync(m => m.NoticeId == noticeId && m.UserId == userId, m => new SysNoticeUser
+            await _sysNoticeUserRep.Context.Updateable(new SysNoticeUser
             {
                 ReadStatus = status,
                 ReadTime = DateTime.Now
-            });
+            }).Where(m => m.NoticeId == noticeId && m.UserId == userId)
+            .UpdateColumns(it => new { it.ReadStatus, it.ReadTime })
+            .ExecuteCommandAsync();
+
         }
 
         /// <inheritdoc/>

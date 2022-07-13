@@ -22,7 +22,6 @@ namespace QingTian.Core.Entity
         [Required, MaxLength(20)]
         [SugarColumn(ColumnDescription = "标题")]
         public string Title { get; set; }
-
         /// <summary>
         /// 内容
         /// </summary>
@@ -79,5 +78,6 @@ namespace QingTian.Core.Entity
         /// </summary>
         [SugarColumn(ColumnDescription = "状态")]
         public NoticeStatus Status { get; set; }
+        
     }
 }

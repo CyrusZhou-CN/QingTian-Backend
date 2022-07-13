@@ -67,7 +67,10 @@ namespace QingTian.Core.Services
                 // 级联删除对用的员工-职位信息
                 await _sysEmpPosService.DeleteEmpPosInfoByUserId(empId);
                 // 删除员工信息
-                await _sysEmpRep.DeleteAsync(emp);
+                if (emp != null)
+                {
+                    await _sysEmpRep.DeleteAsync(emp);
+                }
                 _sysEmpRep.Ado.CommitTran();
             }
             catch (System.Exception)
@@ -110,9 +113,10 @@ namespace QingTian.Core.Services
         }
 
         /// <inheritdoc/>
-        public async Task<long> GetEmpOrgId(long empId)
+        public async Task<long?> GetEmpOrgId(long empId)
         {
-            return (await _sysEmpRep.FirstOrDefaultAsync(u => u.Id == empId)).OrgId;
+            var emp = await _sysEmpRep.FirstOrDefaultAsync(u => u.Id == empId);
+            return emp?.OrgId;
         }
 
         /// <inheritdoc/>

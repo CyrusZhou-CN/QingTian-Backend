@@ -19,6 +19,12 @@ namespace QingTian.Core.Services
         /// <returns></returns>
         Task AddNotice(AddNoticeParam param);
         /// <summary>
+        /// 修改通知消息已读状态
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task SetReadStatus(QueryNoticeParam param);
+        /// <summary>
         /// 修改通知消息状态
         /// </summary>
         /// <param name="param"></param>

@@ -9,5 +9,6 @@ namespace QingTian.Core.Services
         /// </summary>
         [Required(ErrorMessage = "通知消息Id不能为空")]
         public long Id { get; set; }
+        public NoticeUserStatus Status { get; set; }
     }
 }

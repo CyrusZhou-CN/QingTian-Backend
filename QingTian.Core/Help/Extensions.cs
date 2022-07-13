@@ -9,6 +9,25 @@ namespace QingTian.Core
 {
     public static class Extensions
     {
+        /// <summary>
+        /// 去除HTML标记 
+        /// </summary>
+        /// <param name="html">包括HTML的源码 </param>
+        /// <returns>已经去除后的文字</returns>
+        public static string HtmlToText(this string html)
+        {
+            string[] aryReg = { @"<script[^>]*?>.*?</script>", @"<(\/\s*)?!?((\w+:)?\w+)(\w+(\s*=?\s*(([""'])(\\[""'tbnr]|[^\7])*?\7|\w+)|.{0})|\s)*?(\/\s*)?>", @"([\r\n])[\s]+", @"&(quot|#34);", @"&(amp|#38);", @"&(lt|#60);", @"&(gt|#62);", @"&(nbsp|#160);", @"&(iexcl|#161);", @"&(cent|#162);", @"&(pound|#163);", @"&(copy|#169);", @"&#(\d+);", @"-->", @"<!--.*\n" };
+            string[] aryRep = { "", "", "", "\"", "&", "<", ">", " ", "\xa1", "\xa2", "\xa3", "\xa9", "", "\r\n", "" };
+            string _str = html;
+            for (int i = 0; i < aryReg.Length; i++)
+            {
+                Regex regex = new Regex(aryReg[i], RegexOptions.IgnoreCase);
+                _str = regex.Replace(_str, aryRep[i]);
+            }
+            _str.Replace("<", ""); _str.Replace(">", "");
+            _str.Replace("\r\n", ""); 
+            return _str;
+        }
         public static dynamic GetValueForNetType(this object value, string NetType = "string")
         {
             switch (NetType)
@@ -22,7 +41,7 @@ namespace QingTian.Core
                 case "decimal": return Convert.ToDecimal(value);
                 case "Single": return Convert.ToSingle(value);
                 case "DateTime": return Convert.ToDateTime(value);
-                case "double":  return Convert.ToDouble(value);
+                case "double": return Convert.ToDouble(value);
                 case "byte[]": return (byte[])value;
                 case "Guid": return Guid.Parse(value.ToString());
                 default:

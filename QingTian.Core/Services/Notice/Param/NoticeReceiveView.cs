@@ -18,6 +18,6 @@
         /// <summary>
         /// 阅读时间
         /// </summary>
-        public DateTime ReadTime { get; set; }
+        public DateTime ReadTime { get; set; }        
     }
 }

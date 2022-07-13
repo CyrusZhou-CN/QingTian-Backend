@@ -20,6 +20,6 @@ namespace QingTian.Core.Services
 
         Task ForceExist(SysOnlineUser user);
 
-        Task PushNotice(SysNotice notice, List<long> userIds);
+        Task PushNotice(HeaderNoticeReceiveView notice, List<long> userIds);
     }
 }

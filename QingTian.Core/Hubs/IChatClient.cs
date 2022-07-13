@@ -1,4 +1,5 @@
 ﻿using QingTian.Core.Entity;
+using QingTian.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace QingTian.Core
 
         Task ForceExist(string str);
 
-        Task AppendNotice(SysNotice notice);
+        Task AppendNotice(HeaderNoticeReceiveView notice);
     }
 }

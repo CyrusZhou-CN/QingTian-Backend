@@ -41,7 +41,7 @@ namespace QingTian.Core.Services
         /// </summary>
         /// <param name="empId"></param>
         /// <returns></returns>
-        Task<long> GetEmpOrgId(long empId);
+        Task<long?> GetEmpOrgId(long empId);
         /// <summary>
         /// 根据机构Id判断该机构下是否有员工
         /// </summary>

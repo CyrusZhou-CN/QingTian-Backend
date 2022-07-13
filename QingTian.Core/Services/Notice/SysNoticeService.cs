@@ -30,7 +30,7 @@ namespace QingTian.Core.Services
             _sysNoticeUserService = sysNoticeUserService;
             _sysOnlineUserService = sysOnlineUserService;
             _sysEmpRep = sysEmpRep;
-        }
+    }
         /// <inheritdoc/>
         [HttpPost("add")]
         public async Task AddNotice(AddNoticeParam param)
@@ -51,7 +51,8 @@ namespace QingTian.Core.Services
             await _sysNoticeUserService.AddAsync(newItem.Id, noticeUserIdList, noticeUserStatus);
             if (newItem.Status == NoticeStatus.PUBLIC)
             {
-                await _sysOnlineUserService.PushNotice(newItem, noticeUserIdList);
+                var _newItem = newItem.Adapt<HeaderNoticeReceiveView>();
+                await _sysOnlineUserService.PushNotice(_newItem, noticeUserIdList);
             }
         }
 
@@ -79,8 +80,9 @@ namespace QingTian.Core.Services
             if (notice.Status == NoticeStatus.PUBLIC)
             {
                 // 获取通知到的用户
+                var _notice = notice.Adapt<HeaderNoticeReceiveView>();
                 var noticeUserList = await _sysNoticeUserService.GetNoticeUserListByNoticeIdAsync(param.Id);
-                await _sysOnlineUserService.PushNotice(notice, noticeUserList.Select(m => m.UserId).ToList());
+                await _sysOnlineUserService.PushNotice(_notice, noticeUserList.Select(m => m.UserId).ToList());
             }
         }
 
@@ -94,7 +96,13 @@ namespace QingTian.Core.Services
 
             await _sysNoticeRep.DeleteAsync(notice);
         }
-
+        /// <inheritdoc/>
+        [HttpPost("setReadStatus")]
+        public async Task SetReadStatus(QueryNoticeParam param)
+        {
+            await _sysNoticeUserService
+                .SetReadStatusAsync(param.Id, AppUser.UserId,param.Status);
+        }
         /// <inheritdoc/>
         [HttpGet("detail")]
         public async Task<NoticeDetailView> GetNotice([FromQuery] QueryNoticeParam param)
@@ -137,6 +145,7 @@ namespace QingTian.Core.Services
                                             .WhereIF(!string.IsNullOrWhiteSpace(param.SearchValue), u => u.Title.Contains(param.SearchValue.Trim()) || u.Content.Contains(param.SearchValue.Trim()))
                                             .WhereIF(param.Type > 0, u => u.Type == param.Type)
                                             .Where(u => u.Status != NoticeStatus.DELETED)
+                                            .OrderByDescending(u=>u.PublicTime)
                                             .ToPagedListAsync(param.Page, param.PageSize);
             return notices.QtPagedResult();
         }
@@ -160,11 +169,13 @@ namespace QingTian.Core.Services
         {
             var dic = typeof(NoticeType).EnumToList();
             var notices = await _sysNoticeRep.Context.Queryable<SysNotice, SysNoticeUser>((n, u) => new JoinQueryInfos(JoinType.Inner, n.Id == u.NoticeId))
-             .Where((n, u) => u.UserId == AppUser.UserId && u.ReadStatus == NoticeUserStatus.UNREAD).PartitionBy(n => n.Type).OrderBy(n => n.CreatedTime, OrderByType.Desc).Take(param.PageSize).Select<NoticeReceiveView>()
+             .Where((n, u) => u.UserId == AppUser.UserId && u.ReadStatus == NoticeUserStatus.UNREAD)
+             .PartitionBy(n => n.Type).OrderBy(n => n.CreatedTime, OrderByType.Desc).Take(param.PageSize)
              .ToListAsync();
             var count = await _sysNoticeRep.Context.Queryable<SysNotice, SysNoticeUser>((n, u) => new JoinQueryInfos(JoinType.Inner, n.Id == u.NoticeId)).Where((n, u) => u.UserId == AppUser.UserId && u.ReadStatus == NoticeUserStatus.UNREAD).CountAsync();
 
             List<dynamic> noticeClays = new List<dynamic>();
+            var _notices= notices.Adapt<List<HeaderNoticeReceiveView>>();
             int index = 0;
             foreach (var item in dic)
             {
@@ -172,9 +183,9 @@ namespace QingTian.Core.Services
                     new
                     {
                         Index = index++,
-                        Key = item.Describe,
-                        Value = item.Value,
-                        NoticeData = notices.Where(m => m.Type == item.Value).ToList()
+                        Name = item.Describe,
+                        Key = item.Value,
+                        List = _notices.Where(m => m.Type == item.Value).ToList()
                     }
                 );
             }
@@ -210,7 +221,8 @@ namespace QingTian.Core.Services
             await _sysNoticeUserService.UpdateAsync(param.Id, noticeUserIdList, noticeUserStatus);
             if (notice.Status == NoticeStatus.PUBLIC)
             {
-                await _sysOnlineUserService.PushNotice(notice, noticeUserIdList);
+                var _notice = notice.Adapt<HeaderNoticeReceiveView>();
+                await _sysOnlineUserService.PushNotice(_notice, noticeUserIdList);
             }
         }
         /// <summary>

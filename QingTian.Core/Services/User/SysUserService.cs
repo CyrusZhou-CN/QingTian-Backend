@@ -92,7 +92,7 @@ namespace QingTian.Core.Services.User
             return await _sysUserRep.AsQueryable()
                                   .WhereIF(!string.IsNullOrWhiteSpace(param.Name), u => (u.RealName.Contains(param.Name.Trim())))
                                   .Where(u => u.Status != ValidityStatus.DELETED)
-                                  .Where(u => u.UserType != UserType.SuperAdmin)
+                                  //.Where(u => u.UserType != UserType.SuperAdmin)
                                   .Select(u => new
                                   {
                                       u.Id,
@@ -195,7 +195,7 @@ namespace QingTian.Core.Services.User
         public async Task DeleteUser(DeleteUserParam param)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == param.Id);
-            if (user.UserType != UserType.SuperAdmin)
+            if (user.UserType == UserType.SuperAdmin)
                 throw Oops.Oh(ErrorCode.E1014);
 
             if (user.Account == AppUser.Account)
@@ -403,8 +403,11 @@ namespace QingTian.Core.Services.User
                     // 获取该用户对应的数据范围集合
                     var userDataScopeIdListForUser = await _sysUserDataScopeService.GetUserDataScopeIdListAsync(userId);
                     // 获取该用户的角色对应的数据范围集合
-                    var userDataScopeIdListForRole = await _sysUserRoleService.GetUserRoleDataScopeIdListAsync(userId, orgId);
-                    dataScopes = userDataScopeIdListForUser.Concat(userDataScopeIdListForRole).Distinct().ToList(); // 并集
+                    if (orgId != null)
+                    {
+                        var userDataScopeIdListForRole = await _sysUserRoleService.GetUserRoleDataScopeIdListAsync(userId, (long)orgId);
+                        dataScopes = userDataScopeIdListForUser.Concat(userDataScopeIdListForRole).Distinct().ToList(); // 并集 
+                    }
                 }
                 else
                 {

@@ -2287,6 +2287,13 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:QingTian.Core.Extensions.HtmlToText(System.String)">
+            <summary>
+            去除HTML标记 
+            </summary>
+            <param name="html">包括HTML的源码 </param>
+            <returns>已经去除后的文字</returns>
+        </member>
         <member name="M:QingTian.Core.Extensions.ToUnderscore(System.String)">
             <summary>
             驼峰转下划线
@@ -2803,15 +2810,6 @@
         <member name="T:QingTian.Core.Services.AuthService">
             <inheritdoc cref="T:QingTian.Core.Services.IAuthService"/>
         </member>
-        <member name="M:QingTian.Core.Services.AuthService.GetCaptcha">
-            <inheritdoc/>
-        </member>
-        <member name="M:QingTian.Core.Services.AuthService.GetCaptchaStatus">
-            <inheritdoc/>
-        </member>
-        <member name="M:QingTian.Core.Services.AuthService.CheckCaptcha(QingTian.Core.Services.ClickWordCaptchaParam)">
-            <inheritdoc/>
-        </member>
         <member name="M:QingTian.Core.Services.AuthService.GetUserinfo">
             <inheritdoc/>
         </member>
@@ -2828,18 +2826,6 @@
             <summary>
             登录授权相关服务
             </summary>
-        </member>
-        <member name="M:QingTian.Core.Services.IAuthService.GetCaptcha">
-            <summary>
-            获取验证码（默认点选模式）
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:QingTian.Core.Services.IAuthService.GetCaptchaStatus">
-            <summary>
-            获取验证码开关状态（bool）
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:QingTian.Core.Services.IAuthService.GetUserinfo">
             <summary>
@@ -2859,13 +2845,6 @@
             <summary>
             注销
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:QingTian.Core.Services.IAuthService.CheckCaptcha(QingTian.Core.Services.ClickWordCaptchaParam)">
-            <summary>
-            校验验证码
-            </summary>
-            <param name="param"></param>
             <returns></returns>
         </member>
         <member name="M:QingTian.Core.Services.IAuthService.GetPermCode">
@@ -3229,140 +3208,6 @@
         </member>
         <member name="M:QingTian.Core.Services.SysCacheService.SetDataScope(System.Int64,System.Collections.Generic.List{System.Int64})">
             <inheritdoc/>
-        </member>
-        <member name="T:QingTian.Core.Services.ClickWordCaptcha">
-            <inheritdoc cref="T:QingTian.Core.Services.IClickWordCaptcha"/>
-        </member>
-        <member name="M:QingTian.Core.Services.ClickWordCaptcha.CreateCaptchaImage(System.String,System.Int32,System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:QingTian.Core.Services.ClickWordCaptcha.ToPercentPos(System.ValueTuple{System.Int32,System.Int32},System.ValueTuple{System.Int32,System.Int32})">
-            <summary>
-            转换为相对于图片的百分比单位
-            </summary>
-            <param name="widthAndHeight">图片宽高</param>
-            <param name="xAndy">相对于图片的绝对尺寸</param>
-            <returns>(int:xPercent, int:yPercent)</returns>
-        </member>
-        <member name="M:QingTian.Core.Services.ClickWordCaptcha.LoadFont(System.String,System.Int32,System.Drawing.FontStyle)">
-            <summary>
-            加载字体
-            </summary>
-            <param name="path">字体文件路径,包含字体文件名和后缀名</param>
-            <param name="size">大小</param>
-            <param name="fontStyle">字形(常规/粗体/斜体/粗斜体)</param>
-        </member>
-        <member name="M:QingTian.Core.Services.ClickWordCaptcha.RandomCode(System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:QingTian.Core.Services.ClickWordCaptcha.CheckCode(QingTian.Core.Services.ClickWordCaptchaParam)">
-            <inheritdoc/>
-        </member>
-        <member name="T:QingTian.Core.Services.IClickWordCaptcha">
-            <summary>
-            验证码服务
-            </summary>
-        </member>
-        <member name="M:QingTian.Core.Services.IClickWordCaptcha.CheckCode(QingTian.Core.Services.ClickWordCaptchaParam)">
-            <summary>
-            验证码验证
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QingTian.Core.Services.IClickWordCaptcha.CreateCaptchaImage(System.String,System.Int32,System.Int32)">
-            <summary>
-            生成验证码图片
-            </summary>
-            <param name="code"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QingTian.Core.Services.IClickWordCaptcha.RandomCode(System.Int32)">
-            <summary>
-            随机绘制字符串
-            </summary>
-            <param name="number"></param>
-            <returns></returns>
-        </member>
-        <member name="T:QingTian.Core.Services.ClickWordCaptchaParam">
-            <summary>
-            点击验证码输入参数
-            </summary>
-        </member>
-        <member name="P:QingTian.Core.Services.ClickWordCaptchaParam.CaptchaType">
-            <summary>
-            验证码类型
-            </summary>
-        </member>
-        <member name="P:QingTian.Core.Services.ClickWordCaptchaParam.PointJson">
-            <summary>
-            坐标点集合
-            </summary>
-        </member>
-        <member name="P:QingTian.Core.Services.ClickWordCaptchaParam.Token">
-            <summary>
-            Token
-            </summary>
-        </member>
-        <member name="T:QingTian.Core.Services.ClickWordCaptchaResult">
-            <summary>
-            验证码输出参数
-            </summary>
-        </member>
-        <member name="T:QingTian.Core.Services.PointPosModel">
-            <summary>
-            记录正确位置
-            </summary>
-        </member>
-        <member name="T:QingTian.Core.Services.GeneralCaptcha">
-            <inheritdoc cref="T:QingTian.Core.Services.IGeneralCaptcha"/>
-        </member>
-        <member name="M:QingTian.Core.Services.GeneralCaptcha.CreateCaptchaImage(System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:QingTian.Core.Services.GeneralCaptcha.CheckCode(QingTian.Core.Services.GeneralCaptchaParam)">
-            <inheritdoc/>
-        </member>
-        <member name="T:QingTian.Core.Services.IGeneralCaptcha">
-            <summary>
-            常规验证码
-            </summary>
-        </member>
-        <member name="M:QingTian.Core.Services.IGeneralCaptcha.CheckCode(QingTian.Core.Services.GeneralCaptchaParam)">
-            <summary>
-            验证码验证
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QingTian.Core.Services.IGeneralCaptcha.CreateCaptchaImage(System.Int32)">
-            <summary>
-            生成验证码图片
-            </summary>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="T:QingTian.Core.Services.GeneralCaptchaParam">
-            <summary>
-            常规验证码输入
-            </summary>
-        </member>
-        <member name="P:QingTian.Core.Services.GeneralCaptchaParam.CaptchaType">
-            <summary>
-            验证码类型
-            </summary>
-        </member>
-        <member name="P:QingTian.Core.Services.GeneralCaptchaParam.CaptchaCode">
-            <summary>
-            验证码字符
-            </summary>
-        </member>
-        <member name="P:QingTian.Core.Services.GeneralCaptchaParam.Token">
-            <summary>
-            Token
-            </summary>
         </member>
         <member name="T:QingTian.Core.Services.CodeGen.CodeGenConfigService">
             <inheritdoc cref="T:QingTian.Core.Services.ICodeGenConfigService"/>
@@ -6219,6 +6064,13 @@
             <param name="param"></param>
             <returns></returns>
         </member>
+        <member name="M:QingTian.Core.Services.ISysNoticeService.SetReadStatus(QingTian.Core.Services.QueryNoticeParam)">
+            <summary>
+            修改通知消息已读状态
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="M:QingTian.Core.Services.ISysNoticeService.ChangeStatus(QingTian.Core.Services.ChangeStatusNoticeParam)">
             <summary>
             修改通知消息状态
@@ -6360,6 +6212,46 @@
         <member name="P:QingTian.Core.Services.DeleteNoticeParam.Id">
             <summary>
             Id
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.Datetime">
+            <summary>
+            发布日期
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.UserName">
+            <summary>
+            发布人
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.ClickClose">
+            <summary>
+            允许点击
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.Description">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.Avatar">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.HeaderNoticeReceiveView.Type">
+            <summary>
+            类型: 1=通知 2=消息
             </summary>
         </member>
         <member name="T:QingTian.Core.Services.NoticeBase">
@@ -6517,6 +6409,9 @@
             <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysNoticeService.DeleteNotice(QingTian.Core.Services.DeleteNoticeParam)">
+            <inheritdoc/>
+        </member>
+        <member name="M:QingTian.Core.Services.SysNoticeService.SetReadStatus(QingTian.Core.Services.QueryNoticeParam)">
             <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysNoticeService.GetNotice(QingTian.Core.Services.QueryNoticeParam)">

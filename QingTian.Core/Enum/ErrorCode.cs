@@ -191,7 +191,7 @@ namespace QingTian.Core
         /// <summary>
         /// 通知消息状态错误
         /// </summary>
-        [ErrorCodeItemMetadata("通知消息状态错误")]
+        [ErrorCodeItemMetadata("通知消息已发布禁止修改")]
         E7002,
 
         /// <summary>
