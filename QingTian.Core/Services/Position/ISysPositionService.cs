@@ -27,7 +27,7 @@ namespace QingTian.Core.Services
         /// <returns></returns>
         Task DeletePosition(DeletePositionParam param);
         /// <summary>
-        /// 获取职位
+        /// 获取职位详情
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>

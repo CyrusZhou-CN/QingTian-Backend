@@ -6,8 +6,8 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MiniExcelLibs;
 using SqlSugar;
+using MiniExcelLibs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,7 +68,12 @@ namespace QingTian.Core.Services.User
         public async Task<dynamic> GetUser([FromQuery] QueryUserParam param)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == param.Id);
-            return user.Adapt<UserView>();
+            var  userView = user.Adapt<UserView>();
+            if (!userView.IsNullOrZero()) {
+                userView.SysEmpParam = await _sysEmpService.GetEmpInfo(user.Id);
+            }
+
+            return userView;
         }
 
         /// <inheritdoc/>
@@ -121,11 +126,15 @@ namespace QingTian.Core.Services.User
         [HttpGet("export")]
         public async Task<IActionResult> ExportUser([FromQuery] UserParam param)
         {
-            var users = await _sysUserRep.ToListAsync();
-
+            var users = await _sysUserRep.AsQueryable()
+                .WhereIF(!string.IsNullOrWhiteSpace(param.Account), u => u.Account.Contains(param.Account.Trim()))
+                .WhereIF(!string.IsNullOrWhiteSpace(param.NickName), u => u.NickName.Contains(param.NickName.Trim()))
+                .ToListAsync();
+            // MiniExcel enum 类型的值不能为空
             var memoryStream = new MemoryStream();
             memoryStream.SaveAs(users);
             memoryStream.Seek(0, SeekOrigin.Begin);
+
             return await Task.FromResult(new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             {
                 FileDownloadName = "user.xlsx"
@@ -179,7 +188,7 @@ namespace QingTian.Core.Services.User
                 var newUser = await _sysUserRep.InsertReturnEntityAsync(user);
                 param.SysEmpParam.Id = newUser.Id;
                 // 增加员工信息
-                //await _sysEmpService.AddOrUpdate(param.SysEmpParam);
+                await _sysEmpService.AddOrUpdate(param.SysEmpParam);
                 _sysUserRep.Ado.CommitTran();
                 await _sysCacheService.DelByStartsWithAsync(ConstCache.CACHE_KEY_USERSDATASCOPE);
             }

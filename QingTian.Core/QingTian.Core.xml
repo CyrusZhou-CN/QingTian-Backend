@@ -449,6 +449,16 @@
             软删除
             </summary>
         </member>
+        <member name="M:QingTian.Core.Entity.DbEntityBase.Create">
+            <summary>
+            Create
+            </summary>
+        </member>
+        <member name="M:QingTian.Core.Entity.DbEntityBase.Modify">
+            <summary>
+            Modify
+            </summary>
+        </member>
         <member name="M:QingTian.Core.Entity.DbEntityBase.UpdateColumn">
             <summary>
             更新信息列
@@ -6485,7 +6495,7 @@
         </member>
         <member name="M:QingTian.Core.Services.ISysOrganizeService.GetOrganize(QingTian.Core.Services.QueryOrganizeParam)">
             <summary>
-            获取组织机构信息
+            获取组织机构详情
             </summary>
             <param name="param"></param>
             <returns></returns>
@@ -6507,6 +6517,13 @@
         <member name="M:QingTian.Core.Services.ISysOrganizeService.QueryOrganizePageList(QingTian.Core.Services.PageOrganizeParam)">
             <summary>
             分页查询组织机构
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QingTian.Core.Services.ISysOrganizeService.UpdateOrganize(QingTian.Core.Services.UpdateOrganizeParam)">
+            <summary>
+            更新组织机构
             </summary>
             <param name="param"></param>
             <returns></returns>
@@ -6688,7 +6705,7 @@
         </member>
         <member name="M:QingTian.Core.Services.ISysPositionService.GetPosition(QingTian.Core.Services.QueryPositionParam)">
             <summary>
-            获取职位
+            获取职位详情
             </summary>
             <param name="param"></param>
             <returns></returns>
@@ -6875,7 +6892,7 @@
         </member>
         <member name="M:QingTian.Core.Services.ISysRoleService.GetRoleInfo(QingTian.Core.Services.QueryRoleParam)">
             <summary>
-            获取角色
+            获取角色详情
             </summary>
             <param name="param"></param>
             <returns></returns>
@@ -7058,110 +7075,52 @@
             <returns></returns>
         </member>
         <member name="T:QingTian.Core.Services.SysRoleService">
-            <summary>
-            角色服务
-            </summary>
+            <inheritdoc cref="T:QingTian.Core.Services.ISysRoleService"/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.SetRoleStatus(System.Int64,System.Int32)">
             <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.AddRole(QingTian.Core.Services.AddRoleParam)">
-            <summary>
-            增加角色
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.DeleteRole(QingTian.Core.Services.DeleteRoleParam)">
-            <summary>
-            删除角色
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GetNameByRoleId(System.Int64)">
-            <summary>
-            根据角色Id获取角色名称
-            </summary>
-            <param name="roleId"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GetRoleDropDown">
-            <summary>
-            角色下拉（用于授权角色时选择）
-            </summary>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GetRoleInfo(QingTian.Core.Services.QueryRoleParam)">
-            <summary>
-            获取角色
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GetRoleList(QingTian.Core.Services.RoleParam)">
-            <summary>
-            获取角色列表
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GetUserDataScopeIdList(System.Collections.Generic.List{System.Int64},System.Int64)">
-            <summary>
-            根据角色Id集合获取数据范围Id集合
-            </summary>
-            <param name="roleIdList"></param>
-            <param name="orgId"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GetUserRoleList(System.Int64)">
-            <summary>
-            获取用户角色相关信息（登录）
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GrantData(QingTian.Core.Services.GrantRoleDataParam)">
-            <summary>
-            授权角色数据范围
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.GrantMenu(QingTian.Core.Services.GrantRoleMenuParam)">
-            <summary>
-            授权角色菜单
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.OwnData(QingTian.Core.Services.QueryRoleParam)">
-            <summary>
-            获取角色拥有数据Id集合
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.OwnMenu(QingTian.Core.Services.QueryRoleParam)">
-            <summary>
-            获取角色拥有菜单Id集合
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.QueryRolePageList(QingTian.Core.Services.RoleParam)">
-            <summary>
-            分页获取角色列表
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="M:QingTian.Core.Services.SysRoleService.UpdateRole(QingTian.Core.Services.UpdateRoleParam)">
-            <summary>
-            更新角色
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="T:QingTian.Core.Services.ISysUserDataScopeService">
             <summary>
@@ -7593,6 +7552,11 @@
         <member name="P:QingTian.Core.Services.UserView.Status">
             <summary>
             状态: 0=正常 1=停用 2=删除
+            </summary>
+        </member>
+        <member name="P:QingTian.Core.Services.UserView.SysEmpParam">
+            <summary>
+            员工信息
             </summary>
         </member>
         <member name="T:QingTian.Core.Services.SysUserDataScopeService">

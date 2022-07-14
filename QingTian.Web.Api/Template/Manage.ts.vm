@@ -12,76 +12,76 @@ if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column
 }
 }
 }
-
+@{var dateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");}
 /**
- * 查询@(@Model.BusName)
+ * @@description: 查询@(@Model.BusName)
  *
  * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+ * @@date @dateTime
  */
-export function @(@Model.LowerClassName)Page(params: any) {
+export const @(@Model.LowerClassName)Page = (params: any) => {
   return defHttp.get<any>({ url: Api.page, params });
-}
+};
 
 /**
- * @(@Model.BusName)列表
+ * @@description: @(@Model.BusName)列表
  *
  * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+ * @@date @dateTime
  */
-export function @(@Model.LowerClassName)List(params: any) {
+export const @(@Model.LowerClassName)List = (params: any) => {
   return defHttp.get<any>({ url: Api.list, params });
-}
+};
 
 /**
- * 添加@(@Model.BusName)
+ * @@description: 添加@(@Model.BusName)
  *
  * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+ * @@date @dateTime
  */
-export function @(@Model.LowerClassName)Add(params: any) {
+export const @(@Model.LowerClassName)Add = (params: any) => {
   return defHttp.post({ url: Api.add, params });
-}
+};
 
 /**
- * 编辑@(@Model.BusName)
+ * @@description: 编辑@(@Model.BusName)
  *
  * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+ * @@date @dateTime
  */
-export function @(@Model.LowerClassName)Edit(params: any) {
+export const @(@Model.LowerClassName)Edit = (params: any) => {
   return defHttp.post({ url: Api.edit, params });
-}
+};
 
 /**
- * @(@Model.BusName)详情
+ * @@description: @(@Model.BusName)详情
  *
  * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+ * @@date @dateTime
  */
-export function @(@Model.LowerClassName)Detail(params: any) {
+export const @(@Model.LowerClassName)Detail = (params: any) => {
   return defHttp.get({ url: Api.detail, params });
-}
+};
 
 /**
- * 删除@(@Model.BusName)
+ * @@description: 删除@(@Model.BusName)
  *
  * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+ * @@date @dateTime
  */
-export function @(@Model.LowerClassName)Delete(params: any) {
+export const @(@Model.LowerClassName)Delete = (params: any) => {
   return defHttp.post({ url: Api.delete, params });
-}
+};
 @foreach (var column in Model.TableField){
 if(@column.EffectType.ToLower() == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
 @:
 @:/**
-@: * 获取@(@column.FkEntityName)列表
+@: * @@description: 获取@(@column.FkEntityName)列表
 @: * @@author @Model.AuthorName
- * @date @{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}
+@: * @@date @dateTime
 @: */
-@:export function @(@Model.LowerClassName)Fk@(@column.FkEntityName)@(@column.FkColumnName)List() {
+@:export const @(@Model.LowerClassName)Fk@(@column.FkEntityName)@(@column.FkColumnName)List = () => {
 @:  return defHttp.get<any>({ url: Api.@(@Model.LowerClassName)fk@(@column.FkEntityName)@(@column.FkColumnName) });
-@:}
+@:};
 }
 }

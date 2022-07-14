@@ -48,7 +48,7 @@ namespace QingTian.Core.Services
         Task<dynamic> GetRoleDropDown();
 
         /// <summary>
-        /// 获取角色
+        /// 获取角色详情
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>

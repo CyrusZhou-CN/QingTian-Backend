@@ -14,9 +14,8 @@ using System.Threading.Tasks;
 
 namespace QingTian.Core.Services
 {
-    /// <summary>
-    /// 角色服务
-    /// </summary>
+
+    /// <inheritdoc cref="ISysRoleService"/>
     [Route("SysRole"), ApiDescriptionSettings(Name = "Role", Order = 998)]
     public class SysRoleService : ISysRoleService, IDynamicApiController, ITransient
     {
@@ -60,11 +59,8 @@ namespace QingTian.Core.Services
             return true;
 
         }
-        /// <summary>
-        /// 增加角色
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+
+        /// <inheritdoc/>
         [HttpPost("add")]
         public async Task AddRole(AddRoleParam param)
         {
@@ -77,11 +73,7 @@ namespace QingTian.Core.Services
             await _sysRoleRep.InsertAsync(role);
         }
 
-        /// <summary>
-        /// 删除角色
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpPost("delete")]
         public async Task DeleteRole(DeleteRoleParam param)
         {
@@ -108,11 +100,7 @@ namespace QingTian.Core.Services
             }
         }
 
-        /// <summary>
-        /// 根据角色Id获取角色名称
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [NonAction]
         public async Task<string> GetNameByRoleId(long roleId)
         {
@@ -122,10 +110,7 @@ namespace QingTian.Core.Services
             return role.Name;
         }
 
-        /// <summary>
-        /// 角色下拉（用于授权角色时选择）
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet("dropDown")]
         public async Task<dynamic> GetRoleDropDown()
         {
@@ -145,21 +130,14 @@ namespace QingTian.Core.Services
                                     }).ToListAsync();
         }
 
-        /// <summary>
-        /// 获取角色
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet("detail")]
         public async Task<SysRole> GetRoleInfo([FromQuery] QueryRoleParam param)
         {
             return await _sysRoleRep.FirstOrDefaultAsync(u => u.Id == param.Id);
         }
-        /// <summary>
-        /// 获取角色列表
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+
+        /// <inheritdoc/>
         [NonAction]
         public async Task<dynamic> GetRoleList([FromQuery] RoleParam param)
         {
@@ -175,12 +153,7 @@ namespace QingTian.Core.Services
                                    }).ToListAsync();
         }
 
-        /// <summary>
-        /// 根据角色Id集合获取数据范围Id集合
-        /// </summary>
-        /// <param name="roleIdList"></param>
-        /// <param name="orgId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [NonAction]
         public async Task<List<long>> GetUserDataScopeIdList(List<long> roleIdList, long orgId)
         {
@@ -210,11 +183,7 @@ namespace QingTian.Core.Services
             return roleDataScopeIdList.Concat(dataScopeIdList).Distinct().ToList(); //并集
         }
 
-        /// <summary>
-        /// 获取用户角色相关信息（登录）
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [NonAction]
         public async Task<List<RoleView>> GetUserRoleList(long userId)
         {
@@ -231,11 +200,7 @@ namespace QingTian.Core.Services
                 }).ToListAsync();
         }
 
-        /// <summary>
-        /// 授权角色数据范围
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpPost("grantData")]
         public async Task GrantData(GrantRoleDataParam param)
         {
@@ -267,33 +232,21 @@ namespace QingTian.Core.Services
             await _sysCacheService.DelByStartsWithAsync(ConstCache.CACHE_KEY_DATASCOPE);
         }
 
-        /// <summary>
-        /// 授权角色菜单
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpPost("grantMenu")]
         public async Task GrantMenu(GrantRoleMenuParam param)
         {
             await _sysRoleMenuService.GrantMenu(param);
         }
 
-        /// <summary>
-        /// 获取角色拥有数据Id集合
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet("ownData")]
         public async Task<List<long>> OwnData([FromQuery] QueryRoleParam param)
         {
             return await _sysRoleDataScopeService.GetRoleDataScopeIdList(new List<long> { param.Id });
         }
 
-        /// <summary>
-        /// 获取角色拥有菜单Id集合
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet("ownMenu")]
         public async Task<List<OwnMenuView>> OwnMenu([FromQuery] QueryRoleParam param)
         {
@@ -309,11 +262,7 @@ namespace QingTian.Core.Services
             }).ToList();
         }
 
-        /// <summary>
-        /// 分页获取角色列表
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet("page")]
         public async Task<dynamic> QueryRolePageList([FromQuery] RoleParam param)
         {
@@ -326,11 +275,7 @@ namespace QingTian.Core.Services
             return roles.QtPagedResult();
         }
 
-        /// <summary>
-        /// 更新角色
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpPost("edit")]
         public async Task UpdateRole(UpdateRoleParam param)
         {

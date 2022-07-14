@@ -6,6 +6,10 @@
     "IsGlobalRequestLog": true, //是否开启全局日志
     "MaxRequestBodySize": 41943040 //单位是字节（byte） 1kb=1024byte,此处限制40M
   },
+  // 解决 axios请求 获取不到 头数据 content-disposition 问题
+  "CorsAccessorSettings": {
+    "WithExposedHeaders": [ "Content-Disposition" ]
+  },
   //动态api配置
   "DynamicApiControllerSettings": {
     "DefaultRoutePrefix": "api", //默认路由前缀，默认api，但是如果action上面写死route的话 就无效了特性的优先级最高

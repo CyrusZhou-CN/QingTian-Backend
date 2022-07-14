@@ -46,6 +46,9 @@
         /// 状态: 0=正常 1=停用 2=删除
         /// </summary>
         public virtual int Status { get; set; }
-
+        /// <summary>
+        /// 员工信息
+        /// </summary>
+        public EmployeView SysEmpParam { get;  set; }
     }
 }

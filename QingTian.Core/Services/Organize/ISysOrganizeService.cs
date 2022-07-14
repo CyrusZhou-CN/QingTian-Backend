@@ -29,7 +29,7 @@ namespace QingTian.Core.Services
         Task<List<long>> GetDataScopeListByDataScopeType(int dataScopeType, long orgId);
 
         /// <summary>
-        /// 获取组织机构信息
+        /// 获取组织机构详情
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
@@ -55,6 +55,12 @@ namespace QingTian.Core.Services
         /// <param name="param"></param>
         /// <returns></returns>
         Task<dynamic> QueryOrganizePageList([FromQuery] PageOrganizeParam param);
+
+        /// <summary>
+        /// 更新组织机构
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         Task UpdateOrganize(UpdateOrganizeParam param);
         /// <summary>
         /// 获取所有的机构组织Id集合

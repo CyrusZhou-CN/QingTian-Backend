@@ -53,7 +53,9 @@ namespace QingTian.Core.Entity
         [SugarColumn(ColumnDescription = "软删除")]
         public virtual bool IsDeleted { get; set; } = false;
 
-
+        /// <summary>
+        /// Create
+        /// </summary>
         public override void Create()
         {
             base.Create();
@@ -66,7 +68,9 @@ namespace QingTian.Core.Entity
                 CreatedUserName = userName;
             }
         }
-
+        /// <summary>
+        /// Modify
+        /// </summary>
         public override void Modify()
         {
             base.Modify();

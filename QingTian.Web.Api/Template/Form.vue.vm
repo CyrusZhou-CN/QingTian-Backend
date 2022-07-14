@@ -18,7 +18,7 @@
       const isUpdate = ref(true);
       const id = ref(0);
 
-      const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
+      const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 100,
         schemas: formSchema,
         showActionButtonGroup: false,
@@ -39,7 +39,7 @@
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增@(@Model.BusName)' : '编辑@(@Model.BusName)'));
 
-      async function handleSubmit() {
+      const handleSubmit = async () => {
         try {
           const values = await validate();
           setModalProps({ confirmLoading: true });
@@ -56,7 +56,7 @@
         } finally {
           setModalProps({ confirmLoading: false });
         }
-      }
+      };
 
       return { registerModal, registerForm, getTitle, handleSubmit };
     },
