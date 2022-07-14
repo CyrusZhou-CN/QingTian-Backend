@@ -9,14 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="QingTian.Application.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="QingTian.Application.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\QingTian.Core\QingTian.Core.csproj" />
   </ItemGroup>
 
