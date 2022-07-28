@@ -31,12 +31,12 @@
         /// <summary>
         /// 生日
         /// </summary>
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         /// <summary>
         /// 性别: 男=1 女=2
         /// </summary>
-        public Gender Sex { get; set; }
+        public Gender Sex { get; set; }=Gender.UNKNOWN;
 
         /// <summary>
         /// 邮箱
@@ -51,7 +51,7 @@
         /// <summary>
         /// 用户类型：普通用户=1 | 管理员=2 | 超级管理员=3
         /// </summary>
-        public UserType? UserType { get; set; }
+        public UserType UserType { get; set; }= Core.UserType.User;
 
         /// <summary>
         /// 状态: 0=正常 1=停用 2=删除
