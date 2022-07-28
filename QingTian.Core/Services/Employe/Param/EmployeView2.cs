@@ -5,7 +5,11 @@
         /// <summary>
         /// 员工ID
         /// </summary>
-        public long Id { get; internal set; }
+        public long Id { get; set; }
+        /// <summary>
+        /// 员工工号
+        /// </summary>
+        public string JobNum { get; set; }
         /// <summary>
         /// 机构Id
         /// </summary>
