@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,13 @@ namespace QingTian.Core
     /// </summary>
     public class RequestActionFilter : IAsyncActionFilter
     {
-        private readonly IEventPublisher _eventPublisher;
+        private readonly IEventPublisher _eventPublisher; 
+        private readonly SqlSugarRepository<SysUser> _sysUserRep;
 
-        public RequestActionFilter(IEventPublisher eventPublisher)
+        public RequestActionFilter(SqlSugarRepository<SysUser> sysUserRep,
+            IEventPublisher eventPublisher)
         {
+            _sysUserRep = sysUserRep;
             _eventPublisher = eventPublisher;
         }
 
@@ -62,7 +66,7 @@ namespace QingTian.Core
             }
             if (isWriteLog)
             {
-                await _eventPublisher.PublishAsync(new ChannelEventSource("Create:OpLog", new SysLogOp
+                var opLog = new SysLogOp
                 {
                     Name = httpContext.User?.FindFirstValue(ConstClaim.Name),
                     Success = isRequestSucceed ? YesOrNo.Yes : YesOrNo.No,
@@ -80,7 +84,13 @@ namespace QingTian.Core
                     ElapsedTime = sw.ElapsedMilliseconds,
                     OpTime = DateTime.Now,
                     Account = httpContext.User?.FindFirstValue(ConstClaim.Account)
-                }));
+                };
+                if (string.IsNullOrWhiteSpace(opLog.Account) && opLog.MethodName == "login")
+                {
+                    opLog.Account = context.ActionArguments.ContainsKey("param") ? ((QingTian.Core.Services.LoginParam)context.ActionArguments["param"]).Account : "unknown";
+                    opLog.Name = _sysUserRep.FirstOrDefault(m=>m.Account==opLog.Account)?.RealName;
+                }
+                await _eventPublisher.PublishAsync(new ChannelEventSource("Create:OpLog", opLog));
             }
         }
     }

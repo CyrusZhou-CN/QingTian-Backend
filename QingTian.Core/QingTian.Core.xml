@@ -4641,6 +4641,11 @@
             员工ID
             </summary>
         </member>
+        <member name="P:QingTian.Core.Services.EmployeView2.JobNum">
+            <summary>
+            员工工号
+            </summary>
+        </member>
         <member name="P:QingTian.Core.Services.EmployeView2.OrgId">
             <summary>
             机构Id
