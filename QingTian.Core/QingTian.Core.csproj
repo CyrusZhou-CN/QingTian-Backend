@@ -17,15 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CSRedisCore" Version="3.8.3" />
-    <PackageReference Include="Furion" Version="3.7.11" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.7.11" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="3.7.11" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.7.11" />
-    <PackageReference Include="MiniExcel" Version="1.26.5" />
-    <PackageReference Include="SqlSugarCoreOpenGauss" Version="5.0.9.4" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.19" />
+    <PackageReference Include="CSRedisCore" Version="3.8.669" />
+    <PackageReference Include="Furion" Version="4.7.9" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.7.9" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="4.7.9" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.7.9" />
+    <PackageReference Include="MiniExcel" Version="1.29.0" />
+    <PackageReference Include="SqlSugarCoreOpenGauss" Version="5.1.3.32" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.23" />
     <PackageReference Include="UAParser" Version="3.1.47" />
   </ItemGroup>
 

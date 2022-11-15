@@ -51,7 +51,7 @@ namespace QingTian.Core.Services
         [HttpPost("setRoleStatus")]
         public async Task<bool> SetRoleStatus(long Id, int newStatus)
         {
-            var role = await _sysRoleRep.FirstOrDefaultAsync(u => u.Id == Id); 
+            var role = await _sysRoleRep.FirstOrDefaultAsync(u => u.Id == Id);
             if (role.IsNullOrZero())
                 throw Oops.Oh(ErrorCode.E1002);
             role.Status = (ValidityStatus)newStatus;
@@ -226,7 +226,10 @@ namespace QingTian.Core.Services
                     }
                 }
             }
-            role.DataScopeType = dataScopeType;
+            if (role != null)
+            {
+                role.DataScopeType = dataScopeType;
+            }
             await _sysRoleDataScopeService.GrantDataScope(param);
             await _sysCacheService.DelByStartsWithAsync(ConstCache.CACHE_KEY_USERSDATASCOPE);
             await _sysCacheService.DelByStartsWithAsync(ConstCache.CACHE_KEY_DATASCOPE);
